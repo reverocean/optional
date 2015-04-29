@@ -1,5 +1,6 @@
 package services;
 
+import functional.Function;
 import repositories.AccountRepository;
 import vo.Account;
 import vo.Address;
@@ -18,6 +19,13 @@ public class AccountService {
                     return city.getName();
                 }
             }
+        }
+        return null;
+    }
+
+    private <T, R> R map(T value, Function<T, R> transform) {
+        if (value != null) {
+            return transform.apply(value);
         }
         return null;
     }
