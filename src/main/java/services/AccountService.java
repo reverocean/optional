@@ -11,16 +11,36 @@ public class AccountService {
 
     public String getCityName(int accountId) {
         Account account = accountRepository.findAccount(accountId);
-        if (account != null) {
-            Address address = account.getAddress();
-            if (address != null) {
-                City city = address.getCity();
-                if (city != null) {
-                    return city.getName();
-                }
+        Address address = map(account, toAddress());
+        City city = map(address, toCity());
+        return map(city, toCityName());
+    }
+
+    private Function<City, String> toCityName() {
+        return new Function<City, String>() {
+            @Override
+            public String apply(City value) {
+                return value.getName();
             }
-        }
-        return null;
+        };
+    }
+
+    private Function<Address, City> toCity() {
+        return new Function<Address, City>() {
+            @Override
+            public City apply(Address value) {
+                return value.getCity();
+            }
+        };
+    }
+
+    private Function<Account, Address> toAddress() {
+        return new Function<Account, Address>() {
+            @Override
+            public Address apply(Account value) {
+                return value.getAddress();
+            }
+        };
     }
 
     private <T, R> R map(T value, Function<T, R> transform) {
