@@ -1,0 +1,6 @@
+optional.*
+.gradle
+gradle
+out
+build
+
