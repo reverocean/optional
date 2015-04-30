@@ -1,4 +1,6 @@
-optional.*
+optional.iml
+optional.iws
+optional.ipr
 .gradle
 gradle
 out
