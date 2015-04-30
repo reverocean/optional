@@ -1,6 +1,7 @@
 package services;
 
 import functional.Function;
+import functional.Optional;
 import repositories.AccountRepository;
 import vo.Account;
 import vo.Address;
@@ -11,10 +12,13 @@ public class AccountService {
 
     public String getCityName(int accountId) {
         Account account = accountRepository.findAccount(accountId);
-        Address address = map(account, toAddress());
-        City city = map(address, toCity());
-        return map(city, toCityName());
+        Optional optional = new Optional();
+        Address address = optional.map(account, toAddress());
+        City city = optional.map(address, toCity());
+        return optional.map(city, toCityName());
     }
+
+
 
     private Function<City, String> toCityName() {
         return new Function<City, String>() {
@@ -41,13 +45,6 @@ public class AccountService {
                 return value.getAddress();
             }
         };
-    }
-
-    private <T, R> R map(T value, Function<T, R> transform) {
-        if (value != null) {
-            return transform.apply(value);
-        }
-        return null;
     }
 
 
