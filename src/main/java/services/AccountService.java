@@ -7,19 +7,20 @@ import vo.Account;
 import vo.Address;
 import vo.City;
 
+import static functional.Optional.from;
+
 public class AccountService {
     private AccountRepository accountRepository;
 
     public String getCityName(int accountId) {
         Account account = accountRepository.findAccount(accountId);
 
-        return new Optional<Account>(account)
+        return from(account)
                 .map(toAddress())
                 .map(toCity())
                 .map(toCityName())
                 .getValue();
     }
-
 
 
     private Function<City, String> toCityName() {
