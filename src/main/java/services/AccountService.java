@@ -12,10 +12,12 @@ public class AccountService {
 
     public String getCityName(int accountId) {
         Account account = accountRepository.findAccount(accountId);
-        Optional optional = new Optional();
-        Address address = optional.map(account, toAddress());
-        City city = optional.map(address, toCity());
-        return optional.map(city, toCityName());
+
+        return new Optional<Account>(account)
+                .map(toAddress())
+                .map(toCity())
+                .map(toCityName())
+                .getValue();
     }
 
 
